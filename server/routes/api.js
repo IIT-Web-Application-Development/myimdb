@@ -9,14 +9,14 @@ router.get('/', (req, res) => {
 /**
  * LOGIN
  */
-router.post('/login', (req, res) => {
-  let user = req.body.user;
+router.post('/authenticate', (req, res) => {
+  let user = req.body;
 
   if (user.username !== 'test') {
     return res.status(404).json({ error: 'Invalid credentials' });
   }
 
-  res.json({ key: 'yourkey' });
+  res.json({ token: 'yourkey' });
 });
 
 /**
