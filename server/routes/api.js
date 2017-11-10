@@ -19,4 +19,19 @@ router.post('/login', (req, res) => {
   res.json({ key: 'yourkey' });
 });
 
+/**
+ * SIGNUP
+ */
+// TODO SIGNUP API
+
+/**
+ * SERIES
+ */
+// TODO: Series API
+
+/**
+ * MOVIES
+ */
+// TODO Movies API
+
 module.exports = router;

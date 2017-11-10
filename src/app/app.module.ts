@@ -7,6 +7,8 @@ import { FormsModule } from '@angular/forms';
 import { AppComponent } from './app.component';
 import { LoginComponent } from './login/login.component';
 import { LandpageComponent } from './landpage/landpage.component';
+import { SeriesComponent } from './series/series.component';
+import { MoviesComponent } from './movies/movies.component';
 
 // Define app routes
 const ROUTES = [
@@ -25,7 +27,9 @@ const ROUTES = [
   declarations: [
     AppComponent,
     LoginComponent,
-    LandpageComponent
+    LandpageComponent,
+    SeriesComponent,
+    MoviesComponent
   ],
   imports: [
     BrowserModule,
