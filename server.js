@@ -19,6 +19,16 @@ app.use(express.static(path.join(__dirname, 'dist')));
 // Set our api routes
 app.use('/api', api);
 
+// Catch static files
+app.get('/series', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public/views/tvseries.html'));
+});
+
+// Catch static
+app.get('/movies', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public/views/movies.html'));
+});
+
 // Catch all other routes and return the index file
 app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname, 'dist/index.html'));

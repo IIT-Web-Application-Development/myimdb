@@ -2,7 +2,7 @@ import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 
 import { Router, ActivatedRoute } from '@angular/router';
 import { AuthenticationService } from '../authentication.service';
-
+import { User } from '../user';
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
@@ -11,7 +11,7 @@ import { AuthenticationService } from '../authentication.service';
 })
 export class LoginComponent implements OnInit {
 
-  model: any = {};
+  model: User;
   loading = false;
   returnUrl: string;
 
