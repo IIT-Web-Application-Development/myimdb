@@ -12,7 +12,7 @@ import { User } from '../user';
 export class LoginComponent implements OnInit {
 
   model: User;
-  private email: String;
+  private username: String;
   private password: String;
   loading = false;
   returnUrl: string;
