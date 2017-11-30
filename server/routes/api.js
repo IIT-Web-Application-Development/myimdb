@@ -24,14 +24,17 @@ router.post('/authenticate', (req, res) => {
  */
 // TODO SIGNUP API
 
+
 /**
  * SERIES
  */
 // TODO: Series API
 
+
 /**
  * MOVIES
  */
 // TODO Movies API
+
 
 module.exports = router;
