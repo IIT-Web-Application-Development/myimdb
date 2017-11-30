@@ -20,26 +20,42 @@ router.post('/authenticate', (req, res) => {
         if (err) throw err;
 
         if (!user) {
-            res.json({ success: false, message: 'Authentication failed. User not found.' });
+            res.status(404).json({ error: 'Authentication failed. User not found.' });
         } else {
             // Check if password matches
             user.comparePassword(req.body.password, function(err, isMatch) {
                 if (isMatch && !err) {
-                    var token = jwt.sign({
-                        user: user,
-                        id: user._id
-                    }, "asasasasasas", { expiresIn: '10h' });
-                    res.json({ success: true, token: 'JWT ' + token });
+                    var token = jwt.sign({ id: user._id, username: user.username }, config.secret, { expiresIn: '10h' });
+                    res.json({ token: token });
                 } else {
-                    res.json({ success: false, message: 'Authentication failed. Passwords did not match.' });
+                    res.status(404).json({ error: 'Authentication failed. Passwords did not match.' });
                 }
             });
         }
     });
 });
 
-router.get('/foo', passport.authenticate('jwt', { session: false }), function(req, res) {
-    res.send('It worked! User id is: ' + req.user._id + '.');
+/**
+ * SIGNUP
+ */
+// process the signup form
+router.post('/register', function(req, res) {
+    if (!req.body.username || !req.body.password) {
+        res.status(404).json({ error: 'Username and password required.' });
+    } else {
+        var newUser = new User({
+            username: req.body.username,
+            password: req.body.password
+        });
+
+        // Attempt to save the user
+        newUser.save(function(err, user) {
+            if (err) {
+                return res.status(404).json({ error: 'Username already exists.' });
+            }
+            res.json({ id: user._id });
+        });
+    }
 });
 
 /**

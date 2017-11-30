@@ -1,11 +1,12 @@
 let mongoose = require('mongoose');
 let Schema = mongoose.Schema;
 var bcrypt = require('bcrypt-nodejs');
+var uniqueValidator = require('mongoose-unique-validator');
 //const passportLocalMongoose = require('passport-local-mongoose');
 
 let userSchema = new Schema({
-    username: String,
-    password: String // Salting and Hashing is taken care of with Plugin
+    username: { type: String, required: true, unique: true },
+    password: { type: String, required: true }
 });
 
 // Saves the user's password hashed (plain text password storage is not good)
@@ -39,7 +40,7 @@ userSchema.methods.comparePassword = function(pw, cb) {
     });
 };
 
-
+userSchema.plugin(uniqueValidator);
 //userSchema.plugin(passportLocalMongoose);
 
 module.exports = mongoose.model('User', userSchema);
