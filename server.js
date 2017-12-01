@@ -18,7 +18,7 @@ const Tv = require('./server/models/tv');
 var connection = mongoose.connect(configDB.url, {
     useMongoClient: true
 });
-mongoose.Promise = require('bluebird');
+mongoose.Promise = global.Promise;
 
 // Initialize Express App
 const app = express();

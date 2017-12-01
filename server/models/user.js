@@ -3,12 +3,17 @@ let Schema = mongoose.Schema;
 var bcrypt = require('bcrypt-nodejs');
 var uniqueValidator = require('mongoose-unique-validator');
 
+// Other Models
+const Movie = require('./movie');
+const Series = require('./tv');
+
+
 let userSchema = new Schema({
     username: { type: String, required: true, unique: true },
     password: { type: String, required: true },
     full_name: String,
-    fav_movies_ids: [String],
-    fav_series_ids: [String]
+    fav_movies: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Movie' }],
+    fav_series: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Tv' }]
 });
 
 // Saves the user's password hashed (plain text password storage is not good)

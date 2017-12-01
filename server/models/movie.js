@@ -7,8 +7,8 @@ let mongoose = require('mongoose');
 // define schema for Movie
 let Schema = mongoose.Schema;
 let MovieSchema = new Schema({
-    title:          {type: String, required: true, unique: true},
-    description:	String,
+    title: { type: String, required: true, unique: true },
+    description: String,
     /*
     releaseDate:    Date,
     genre:        	String,

@@ -3,6 +3,7 @@ const express = require('express');
 const router = express.Router();
 const passport = require('passport');
 const jwt = require('jsonwebtoken');
+const _ = require('underscore');
 
 // Local Requirements
 const User = require('../models/user');
@@ -92,6 +93,54 @@ router.post('/register', function(req, res) {
 router.get('/user', passport.authenticate('jwt', { session: false }), function(req, res) {
     console.log(req.user);
     res.json({ id: req.user.id, username: req.user.username, full_name: req.user.full_name });
+});
+
+router.get('/movies/favorite', passport.authenticate('jwt', { session: false }), function(req, res) {
+    User.findById(req.user.id)
+        .populate('fav_movies')
+        .then(user => res.json({ fav_movies: user.fav_movies }))
+        .catch(err => res.status(404).json({ error: err }));
+});
+
+router.post('/movies/favorite', passport.authenticate('jwt', { session: false }), function(req, res) {
+    let movieId = req.body.movieId;
+    let user = req.user;
+    if (user.fav_movies.indexOf(movieId) > -1) { // Don't repeat IDs
+        res.status(204).json();
+        return;
+    }
+    user.fav_movies.push(movieId);
+
+    User.update({ _id: user._id }, { fav_movies: user.fav_movies })
+        .then(raw => res.status(204).json())
+        .catch(err => {
+            console.log(err);
+            res.status(404).json({ error: err })
+        });
+});
+
+router.get('/series/favorite', passport.authenticate('jwt', { session: false }), function(req, res) {
+    User.findById(req.user.id)
+        .populate('fav_series')
+        .then(user => res.json({ fav_series: user.fav_series }))
+        .catch(err => res.status(404).json({ error: err }));
+});
+
+router.post('/series/favorite', passport.authenticate('jwt', { session: false }), function(req, res) {
+    let seriesId = req.body.seriesId;
+    let user = req.user;
+    if (user.fav_series.indexOf(seriesId) > -1) { // Don't repeat IDs
+        res.status(204).json();
+        return;
+    }
+    user.fav_series.push(seriesId);
+
+    User.update({ _id: user._id }, { fav_series: user.fav_series })
+        .then(raw => res.status(204).json())
+        .catch(err => {
+            console.log(err);
+            res.status(404).json({ error: err })
+        });
 });
 
 
