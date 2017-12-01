@@ -2,7 +2,7 @@ import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { AuthenticationService } from '../authentication.service';
 import { CookieService } from 'ngx-cookie-service';
-import { User } from '../user';
+import { User } from '../models';
 
 @Component({
   selector: 'app-signup',

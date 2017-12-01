@@ -3,7 +3,7 @@ import { CookieService } from 'ngx-cookie-service';
 
 import { Router, ActivatedRoute } from '@angular/router';
 import { AuthenticationService } from '../authentication.service';
-import { User } from '../user';
+import { User } from '../models';
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',

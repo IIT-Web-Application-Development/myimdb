@@ -1,3 +1,48 @@
-<p>
-    dashboard works! User: {{ user | json }}
-</p>
+<!-- Page Content -->
+<div class="container">
+    <!-- Page Heading -->
+    <h1 class="my-4">Favorite
+        <small>TV Series</small>
+    </h1>
+    <h5 [hidden]="series">No Favorite TV Series</h5>
+    <div *ngIf="series" class="row">
+        <div *ngFor="let s of series" class="col-lg-4 col-sm-6 portfolio-item">
+            <div class="card h-100">
+                <a href="#"><img class="card-img-top" src="http://placehold.it/700x400" alt=""></a>
+                <div class="card-body">
+                    <h4 class="card-title">
+                        <a href="#">{{s.title}}</a>
+                    </h4>
+                    <p class="card-text">{{s.description}}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Page Heading -->
+    <h1 class="my-4">Favorite
+        <small>Movies</small>
+    </h1>
+    <h5 *ngIf="!movies">No Favorite Movies</h5>
+    <div *ngIf="movies" class="row">
+        <div *ngFor="let m of movies" class="col-lg-4 col-sm-6 portfolio-item">
+            <div class="card h-100">
+                <a href="#"><img class="card-img-top" src="http://placehold.it/700x400" alt=""></a>
+                <div class="card-body">
+                    <h4 class="card-title">
+                        <a href="#">{{m.title}}</a>
+                    </h4>
+                    <p class="card-text">{{m.description}}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- /.row -->
+</div>
+<!-- /.container -->
+
+<!-- Footer -->
+<footer class="py-5 bg-dark">
+    <div class="container">
+        <p class="m-0 text-center text-white">Copyright &copy; myIMDB 2017</p>
+    </div>
+</footer>

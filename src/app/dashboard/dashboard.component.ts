@@ -2,6 +2,7 @@ import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { CookieService } from 'ngx-cookie-service';
 import { AuthenticationService } from '../authentication.service';
 import { Router, ActivatedRoute } from '@angular/router';
+import { User, Movie, Series } from '../models';
 
 @Component({
   selector: 'app-dashboard',
@@ -12,6 +13,17 @@ import { Router, ActivatedRoute } from '@angular/router';
 export class DashboardComponent implements OnInit {
 
   private user: any;
+  private movies: Movie[] = [
+    {
+      title: 'Terminator',
+      description: 'Lorem ipsum'
+    },
+    {
+      title: 'Terminator 2',
+      description: 'Lorem ipsum'
+    }
+  ];
+  private series: Series[];
 
   constructor(
     private route: ActivatedRoute,
