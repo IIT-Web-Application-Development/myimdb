@@ -28,6 +28,29 @@ export class AuthenticationService {
       });
   }
 
+  signup(username: String, password: String, full_name: String) {
+    return this.http.post('/api/register',
+      JSON.stringify({ username: username, password: password, full_name: full_name }),
+      {
+        headers: new HttpHeaders().set('Content-Type', `application/json`)
+      })
+      .map((response: Response) => {
+        const res: any = response;
+        return res.id;
+      });
+  }
+
+  getUserInfo() {
+    return this.http.get('/api/user',
+      {
+        headers: new HttpHeaders().set('Content-Type', `application/json`)
+      })
+      .map((response: Response) => {
+        const user: any = response;
+        return user;
+      });
+  }
+
   logout() {
     // remove user from local storage to log user out
     localStorage.removeItem('currentUser');

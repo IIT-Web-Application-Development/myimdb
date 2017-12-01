@@ -12,22 +12,32 @@ import { CookieService } from 'ngx-cookie-service';
 import { AuthenticationService } from './authentication.service';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { SignupComponent } from './signup/signup.component';
+import { PagenotfoundComponent } from './pagenotfound/pagenotfound.component';
 
 // Define app routes
 const ROUTES = [
-  {
-    path: '',
-    component: LandpageComponent,
-    pathMatch: 'full'
-  },
   {
     path: 'login',
     component: LoginComponent
   },
   {
     path: 'signup',
-    component: LoginComponent
+    component: SignupComponent
+  },
+  {
+    path: 'dashboard',
+    component: DashboardComponent
+  },
+  {
+    path: '',
+    component: LandpageComponent,
+    pathMatch: 'full'
+  },
+  {
+    path: '**',
+    component: PagenotfoundComponent
   }
+
 ];
 
 @NgModule({
@@ -36,7 +46,8 @@ const ROUTES = [
     LoginComponent,
     LandpageComponent,
     DashboardComponent,
-    SignupComponent
+    SignupComponent,
+    PagenotfoundComponent
   ],
   imports: [
     BrowserModule,

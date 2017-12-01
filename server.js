@@ -41,12 +41,6 @@ app.use(passport.initialize());*/
 
 passport.use(require('./server/config/passport')(passport));
 
-//app.use(passport.initialize());
-
-app.get('/heyho', passport.authenticate('jwt', { session: false }), function(req, res) {
-    res.send('It worked! User id is: ' + req.user.id + ' and username: ' + req.user.username);
-});
-
 // Point static path to dist
 app.use(express.static(path.join(__dirname, 'dist')));
 

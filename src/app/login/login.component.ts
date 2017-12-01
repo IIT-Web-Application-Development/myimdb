@@ -12,32 +12,33 @@ import { User } from '../user';
 })
 export class LoginComponent implements OnInit {
 
-  model: User;
-  username: String;
-  password: String;
-  returnUrl: string;
+  user: User = new User('', '');
+  errormsg: String = '';
 
   constructor(
     private route: ActivatedRoute,
     private router: Router,
     private authenticationService: AuthenticationService,
-    private cookieService: CookieService) { }
-
-  ngOnInit() {
-    // get return url from route parameters or default to '/'
-    this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/';
+    private cookieService: CookieService) {
+    this.authenticationService.getUserInfo()
+      .subscribe(
+      data => {
+        this.router.navigate(['dashboard']);
+      });
   }
 
+  ngOnInit() { }
+
   onSubmit() {
-    console.log('submit');
-    this.authenticationService.login(this.username, this.password)
+    this.authenticationService.login(this.user.username, this.user.password)
       .subscribe(
       data => {
         this.cookieService.set('JWT', data.token);
-        this.router.navigate(['/']);
+        this.router.navigate(['dashboard']);
       },
       error => {
         console.error(error);
+        this.errormsg =  error.error.error;
       });
   }
 }

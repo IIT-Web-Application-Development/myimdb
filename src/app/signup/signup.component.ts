@@ -1,4 +1,8 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
+import { Router, ActivatedRoute } from '@angular/router';
+import { AuthenticationService } from '../authentication.service';
+import { CookieService } from 'ngx-cookie-service';
+import { User } from '../user';
 
 @Component({
   selector: 'app-signup',
@@ -8,9 +12,35 @@ import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 })
 export class SignupComponent implements OnInit {
 
-  constructor() { }
+  user: User = new User('', '', '', '');
+  created = false;
+  errormsg: String = '';
+
+  constructor(
+    private route: ActivatedRoute,
+    private router: Router,
+    private authenticationService: AuthenticationService,
+    private cookieService: CookieService
+  ) { }
 
   ngOnInit() {
+  }
+
+  onSubmit() {
+    this.errormsg = '';
+    this.authenticationService.signup(this.user.username, this.user.password, this.user.name)
+      .subscribe(
+      data => {
+        this.created = true;
+        this.cookieService.set('JWT', ''); // Logout
+        setTimeout(() => {
+          this.router.navigate(['login']);
+        }, 1500);
+      },
+      error => {
+        console.error(error);
+        this.errormsg =  error.error.error;
+      });
   }
 
 }

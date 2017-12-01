@@ -41,6 +41,7 @@ router.post('/authenticate', (req, res) => {
 // process the signup form
 router.post('/register', function(req, res) {
     if (!req.body.username || !req.body.password) {
+        console.error('Username and password required.');
         res.status(404).json({ error: 'Username and password required.' });
     } else {
         var newUser = new User({
@@ -52,11 +53,19 @@ router.post('/register', function(req, res) {
         // Attempt to save the user
         newUser.save(function(err, user) {
             if (err) {
+                console.error('Username already exists.');
                 return res.status(404).json({ error: 'Username already exists.' });
             }
             res.json({ id: user._id });
         });
     }
+});
+
+/**
+ * USER
+ */
+router.get('/user', passport.authenticate('jwt', { session: false }), function(req, res) {
+    res.json({ id: req.user.id, username: req.user.username }); //, full_name: req.user.full_name });
 });
 
 /**
