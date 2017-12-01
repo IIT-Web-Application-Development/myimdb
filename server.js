@@ -24,56 +24,29 @@ mongoose.Promise = require('bluebird');
 const app = express();
 
 // Get our API routes
-const api = require('./server/routes/api');
+const usersApi = require('./server/routes/users');
+const moviesApi = require('./server/routes/movies');
+const seriesApi = require('./server/routes/series');
 
 // Parsers for POST data
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 
-// required for passport
-//app.use(passport.initialize());
-/*
-var getStrategy = require('./server/config/passport');
-var strategy = getStrategy(passport);
-passport.use(strategy);
-app.use(passport.initialize());*/
-
+// Configure Passport
 passport.use(require('./server/config/passport')(passport));
 
 // Point static path to dist
 app.use(express.static(path.join(__dirname, 'dist')));
 
-// Set our api routes
-app.use('/api', api);
+// Set our routes
+app.use('/', moviesApi);
+app.use('/', seriesApi);
 
-// Catch static files
-app.get('/series', (req, res) => {
-    res.sendFile(path.join(__dirname, 'public/views/tvseries.html'));
-});
+// Set our user api routes
+app.use('/api', usersApi);
 
-// Catch static
-// app.get('/movies', (req, res) => {
-//   res.sendFile(path.join(__dirname, 'public/views/movies.html'));
-// });
-
-// GET /movies route with promise
-app.get('/movies', (req, res) => {
-    //res.sendFile(path.join(__dirname, 'public/views/movies.html'));
-    console.log('getting all movies');
-    Movie.find({})
-        .exec()
-        .then((movies) => {
-            console.log(movies);
-            res.json(movies);
-        })
-        .catch((err) => {
-            res.send(err);
-        });
-});
-
-
-// Catch all other routes and return the index file
+// To all other routes let angular work
 app.get('*', (req, res) => {
     res.sendFile(path.join(__dirname, 'dist/index.html'));
 });

@@ -1,9 +1,12 @@
+// Global Requirements
 const express = require('express');
 const router = express.Router();
+const passport = require('passport');
+const jwt = require('jsonwebtoken');
+
+// Local Requirements
 const User = require('../models/user');
-var passport = require('passport');
-var jwt = require('jsonwebtoken');
-var config = require('../config/database');
+const config = require('../config/database');
 
 /* GET api listing. */
 router.get('/', (req, res) => {
@@ -67,17 +70,6 @@ router.post('/register', function(req, res) {
 router.get('/user', passport.authenticate('jwt', { session: false }), function(req, res) {
     res.json({ id: req.user.id, username: req.user.username }); //, full_name: req.user.full_name });
 });
-
-/**
- * SERIES
- */
-// TODO: Series API
-
-
-/**
- * MOVIES
- */
-// TODO Movies API
 
 
 module.exports = router;
