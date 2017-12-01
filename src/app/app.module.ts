@@ -6,11 +6,12 @@ import { HttpClientModule } from '@angular/common/http';
 import { AppComponent } from './app.component';
 import { LoginComponent } from './login/login.component';
 import { LandpageComponent } from './landpage/landpage.component';
-import { SeriesComponent } from './series/series.component';
-import { MoviesComponent } from './movies/movies.component';
+import { CookieService } from 'ngx-cookie-service';
 
 // Services
 import { AuthenticationService } from './authentication.service';
+import { DashboardComponent } from './dashboard/dashboard.component';
+import { SignupComponent } from './signup/signup.component';
 
 // Define app routes
 const ROUTES = [
@@ -24,12 +25,8 @@ const ROUTES = [
     component: LoginComponent
   },
   {
-    path: 'series',
-    component: SeriesComponent
-  },
-  {
-    path: 'movies',
-    component: MoviesComponent
+    path: 'signup',
+    component: LoginComponent
   }
 ];
 
@@ -38,8 +35,8 @@ const ROUTES = [
     AppComponent,
     LoginComponent,
     LandpageComponent,
-    SeriesComponent,
-    MoviesComponent
+    DashboardComponent,
+    SignupComponent
   ],
   imports: [
     BrowserModule,
@@ -47,7 +44,7 @@ const ROUTES = [
     HttpClientModule,
     RouterModule.forRoot(ROUTES) // Add routes to the app
   ],
-  providers: [AuthenticationService],
+  providers: [AuthenticationService, CookieService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
