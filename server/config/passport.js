@@ -19,7 +19,6 @@ var getStrategy = function(passport) {
     opts.jwtFromRequest = cookieExtractor; //ExtractJwt.fromAuthHeader();
     opts.secretOrKey = config.secret;
     return new JwtStrategy(opts, function(jwt_payload, done) {
-        console.log(jwt_payload);
         User.findById(jwt_payload.id, function(err, user) {
             if (err) {
                 console.error(err);

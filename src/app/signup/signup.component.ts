@@ -12,7 +12,7 @@ import { User } from '../models';
 })
 export class SignupComponent implements OnInit {
 
-  user: User = new User('', '', '', '');
+  user: User = new User('', '', '');
   created = false;
   errormsg: String = '';
 
@@ -28,7 +28,7 @@ export class SignupComponent implements OnInit {
 
   onSubmit() {
     this.errormsg = '';
-    this.authenticationService.signup(this.user.username, this.user.password, this.user.name)
+    this.authenticationService.signup(this.user.username, this.user.password, this.user.full_name)
       .subscribe(
       data => {
         this.created = true;
@@ -38,7 +38,7 @@ export class SignupComponent implements OnInit {
         }, 1500);
       },
       error => {
-        console.error(error);
+        console.log(error);
         this.errormsg =  error.error.error;
       });
   }

@@ -12,3 +12,9 @@
 .app-signup {
     margin-top: 10%;
 }
+
+@media (min-width: 992px) {
+    body {
+        padding-top: 56px;
+    }
+}

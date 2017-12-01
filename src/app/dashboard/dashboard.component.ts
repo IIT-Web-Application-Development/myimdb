@@ -38,7 +38,6 @@ export class DashboardComponent implements OnInit {
         this.user = data;
       },
       error => {
-        console.error(error);
         this.router.navigate(['login']);
       });
   }
@@ -46,4 +45,8 @@ export class DashboardComponent implements OnInit {
   ngOnInit() {
   }
 
+  logout() {
+    this.cookieService.set('JWT', '');
+    this.router.navigate(['/']);
+  }
 }
