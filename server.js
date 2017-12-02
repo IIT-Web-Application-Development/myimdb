@@ -39,6 +39,10 @@ passport.use(require('./server/config/passport')(passport));
 // Point static path to dist
 app.use(express.static(path.join(__dirname, 'dist')));
 
+// Load View Engine
+app.set('views', path.join(__dirname, './public/views'));
+app.set('view engine', 'pug');
+
 // Set our routes
 app.use('/', moviesApi);
 app.use('/', seriesApi);

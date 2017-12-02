@@ -4,6 +4,13 @@ const path = require('path');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 
+// Init App
+// const app = express();
+
+// Load View Engine
+// app.set('views', path.join(__dirname, '../../public/views'));
+// app.set('view engine', 'pug');
+
 // Get the models
 const Movie = require('../models/movie');
 
@@ -76,8 +83,12 @@ router.delete('/api/movie/:id', (req, res) => {
 }); 
 
 // GET HTML /movies
+// router.get('/movies', (req, res) => {
+//     res.sendFile(path.join(__dirname, '../../public/views/movies.html'));
+// });
+
 router.get('/movies', (req, res) => {
-    res.sendFile(path.join(__dirname, '../../public/views/movies.html'));
+    res.render('movies');
 });
 
 
