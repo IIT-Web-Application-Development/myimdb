@@ -122,4 +122,24 @@ router.get('/movie/:id', (req, res) => {
         res.status(404).res.send(err);
     });
 });
+
+router.get('/add', (req, res) => {
+    res.render('addMovie');
+});
+
+router.post('/add', (req, res) => {
+    console.log('POST /add - Adding one movie');
+    var newMovie = new Movie(req.body);
+    newMovie.save()
+        //.exec()
+        .then((movie) => {
+            console.log(movie);
+            //res.json(movie);
+            res.redirect('/movies')
+        })
+        .catch((err) => {
+            res.status(404).res.send(err);
+        });
+});
+
 module.exports = router;

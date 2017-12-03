@@ -6,5 +6,4 @@ block content
         each movie, i in movies
             li.list-group-item
                 h5 #{image_url}
-                //img(src= "#{movie.image_url}" alt='Lights', style='width:100%')
                 a(href="/movie/" + movie._id)= movie.title
