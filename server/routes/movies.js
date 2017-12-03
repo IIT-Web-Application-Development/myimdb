@@ -88,8 +88,38 @@ router.delete('/api/movie/:id', (req, res) => {
 // });
 
 router.get('/movies', (req, res) => {
-    res.render('movies');
+    Movie.find({}).select('-__v')
+    .exec()
+    .then((movies) => {
+        console.log(movies);
+        res.render('movies', {
+            title: 'Movie List:',
+            movies: movies
+        });
+    })
+    .catch((err) => {
+        res.status(404).res.send(err);
+    });
 });
 
+// GET HTML /movies
+// router.get('/movies', (req, res) => {
+//     res.sendFile(path.join(__dirname, '../../public/views/movies.html'));
+// });
 
+router.get('/movie/:id', (req, res) => {
+    Movie.findOne({_id: req.params.id}).select('-__v')
+    .exec()
+    .then((movies) => {
+        console.log(movies);
+        res.render('movie', {
+            title: 'Movie Selected:',
+            image_url: movies.image_url,
+            oneMovie: movies
+        });
+    })
+    .catch((err) => {
+        res.status(404).res.send(err);
+    });
+});
 module.exports = router;

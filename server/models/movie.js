@@ -9,11 +9,11 @@ let Schema = mongoose.Schema;
 let MovieSchema = new Schema({
     title: { type: String, required: true, unique: true },
     description: String,
+    image_url:      String
     /*
     releaseDate:    Date,
     genre:        	String,
     rating:         Number,
-    favorite:       {type: Boolean, default: false},
     actors:      	[String],
     image_url:      String
     */
