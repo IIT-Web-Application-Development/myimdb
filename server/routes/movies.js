@@ -10,13 +10,15 @@ const mongoose = require('mongoose');
 // Load View Engine
 // app.set('views', path.join(__dirname, '../../public/views'));
 // app.set('view engine', 'pug');
-
+const app = express();
 // Get the models
 const Movie = require('../models/movie');
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: false }));
 
 // connect to mongoDB with promise
 const db = 'mongodb://localhost/myimdb';
-mongoose.Promise = global.Promise;
+mongoose.Promise = Promise;
 mongoose.connect(db, { useMongoClient: true });
 
 // ***************** IMPORTANT ********************************
@@ -124,7 +126,9 @@ router.get('/movie/:id', (req, res) => {
 });
 
 router.get('/add', (req, res) => {
-    res.render('addMovie');
+    res.render('addMovie', {
+        title: 'Add new Movie'
+    });
 });
 
 router.post('/add', (req, res) => {
@@ -132,6 +136,43 @@ router.post('/add', (req, res) => {
     var newMovie = new Movie(req.body);
     newMovie.save()
         //.exec()
+        .then((movie) => {
+            console.log(movie);
+            //res.json(movie);
+            res.redirect('/movies')
+        })
+        .catch((err) => {
+            res.status(404).res.send(err);
+        });
+});
+
+router.get('/edit/:id', (req, res) => {
+    Movie.findOne({_id: req.params.id}).select('-__v')
+    .exec()
+    .then((movies) => {
+        console.log(movies);
+        res.render('editMovie', {
+            title: 'Edit Movie:',
+            editMovie: movies
+        });
+    })
+    .catch((err) => {
+        res.status(404).res.send(err);
+    });
+});
+
+
+router.post('/edit/:id', (req, res) => {
+    console.log('POST /add - Adding one edited movie');
+
+    var editMovie = Movie(req.body);
+    console.log('title is: ' + editMovie.title)
+    
+    let query = {_id:req.params.id};
+    console.log('The query id is: ' + query._id);
+
+    Movie.update(query, editMovie)
+        .exec()
         .then((movie) => {
             console.log(movie);
             //res.json(movie);

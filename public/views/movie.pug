@@ -5,4 +5,6 @@ block content
     h3 #{oneMovie.title}
     img(src=oneMovie.image_url alt='NoPic', style='width:20%')
     h6 Movie Description: #{oneMovie.description}
+    hr
+    a.btn.btn-primary(href='/edit/' + oneMovie._id) Edit
     

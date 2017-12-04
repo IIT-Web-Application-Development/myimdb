@@ -1,0 +1,16 @@
+extends layout
+
+block content
+    h2 #{title}
+    form(method='POST', action='/edit/' + editMovie._id)
+        #form-group
+            label Title:
+            input.form-control(name='title', type='text', value=editMovie.title)
+        #form-group
+            label Description:
+            textarea.form-control(name='Description')= editMovie.description
+        #form-group
+            label Image:
+            input.form-control(name='image_url', type='text', value=editMovie.image_url)
+        br
+        input.btn.btn-primary(type='submit',value='Submit')
