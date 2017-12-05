@@ -165,22 +165,31 @@ router.get('/edit/:id', (req, res) => {
 router.post('/edit/:id', (req, res) => {
     console.log('POST /add - Adding one edited movie');
 
-    var editMovie = Movie(req.body);
-    console.log('title is: ' + editMovie.title)
+    let movie = {};
+    movie.title = req.body.title;
+    movie.description = req.body.description;
+    movie.image_url = req.body.image_url;
+
+    // var editMovie = Movie(req.body);
+    console.log('Title is: ' + movie.title);
+    console.log('Description is: ' + movie.description);
     
     let query = {_id:req.params.id};
     console.log('The query id is: ' + query._id);
-
-    Movie.update(query, editMovie)
-        .exec()
-        .then((movie) => {
-            console.log(movie);
-            //res.json(movie);
-            res.redirect('/movies')
-        })
-        .catch((err) => {
-            res.status(404).res.send(err);
-        });
+    
+    Movie.findByIdAndUpdate(req.params.id, movie, function (err, place) {
+        res.redirect('/movies');
+    });
+    // Movie.update(query, editMovie)
+    //     //.exec()
+    //     .then((movie) => {
+    //         console.log(movie);
+    //         //res.json(movie);
+    //                res.redirect('/movies')
+    //     })
+    //     .catch((err) => {
+    //         res.status(404).res.send(err);
+    //     });
 });
 
 module.exports = router;
