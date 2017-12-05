@@ -27,7 +27,7 @@ describe('User API', () => {
     });
 
     test('should CREATE USER', (done) => {
-        request(app)
+        return request(app)
             .post('/api/register')
             .send({
                 username: USERNAME,
@@ -42,7 +42,7 @@ describe('User API', () => {
     });
 
     test('should AUTHENTICATE USER', (done) => {
-        request(app)
+        return request(app)
             .post('/api/authenticate')
             .send({
                 username: USERNAME,
@@ -59,24 +59,25 @@ describe('User API', () => {
 
 
 
+
 describe('User UI', () => {
-    test('should GET /login', function() {
+    test('should GET /login', function(done) {
         return request(app)
             .get('/login')
-            .expect(200)
             .end(function(err, res) {
                 expect(res.redirects.length).toBe(0);
+                expect(res.statusCode).toBe(200);
                 expect(res.type).toEqual('text/html');
                 done();
             });
     });
 
-    test('should GET /signup', () => {
+    test('should GET /signup', (done) => {
         return request(app)
             .get('/signup')
-            .expect(200)
             .end(function(err, res) {
                 expect(res.redirects.length).toBe(0);
+                expect(res.statusCode).toBe(200);
                 expect(res.type).toEqual('text/html');
                 done();
             });
@@ -85,9 +86,9 @@ describe('User UI', () => {
     test('should GET /landpage', (done) => {
         return request(app)
             .get('/landpage')
-            .expect(200)
             .end(function(err, res) {
                 expect(res.redirects.length).toBe(0);
+                expect(res.statusCode).toBe(200);
                 expect(res.type).toEqual('text/html');
                 done();
             });
@@ -96,9 +97,9 @@ describe('User UI', () => {
     test('should GET /dashboard', (done) => {
         return request(app)
             .get('/login')
-            .expect(200)
             .end(function(err, res) {
                 expect(res.redirects.length).toBe(0);
+                expect(res.statusCode).toBe(200);
                 expect(res.type).toEqual('text/html');
                 done();
             });
