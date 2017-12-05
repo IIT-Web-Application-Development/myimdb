@@ -3,6 +3,7 @@ const router = express.Router();
 const path = require('path');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
+const passport = require('passport');
 
 // Init App
 // const app = express();
@@ -28,12 +29,12 @@ mongoose.connect(db, { useMongoClient: true });
 // ************************************************************
 
 // GET /api/movies
-router.get('/api/movies', (req, res) => {
-    console.log('GET /movies - getting all movies');
+router.get('/api/movies', passport.authenticate('jwt', { session: false }), (req, res) => {
+    //console.log('GET /movies - getting all movies');
     Movie.find({}).select('-__v')
         .exec()
         .then((movies) => {
-            console.log(movies);
+            //console.log(movies);
             res.json(movies);
         })
         .catch((err) => {
@@ -42,12 +43,12 @@ router.get('/api/movies', (req, res) => {
 });
 
 // GET /api/movies/:id route with mongoose/promise
-router.get('/api/movies/:id', (req, res) => {
-    console.log('Get /api/movies/:id - getting one movie');
+router.get('/api/movies/:id', passport.authenticate('jwt', { session: false }), (req, res) => {
+    //console.log('Get /api/movies/:id - getting one movie');
     Movie.findOne({ _id: req.params.id })
         .exec()
         .then((movies) => {
-            console.log(movies);
+            //console.log(movies);
             res.json(movies);
         })
         .catch((err) => {
@@ -56,13 +57,13 @@ router.get('/api/movies/:id', (req, res) => {
 });
 
 // POST /api/movie route with mongoose/promise
-router.post('/api/movie', (req, res) => {
-    console.log('POST /api/movie - Adding one movie');
+router.post('/api/movie', passport.authenticate('jwt', { session: false }), (req, res) => {
+    //console.log('POST /api/movie - Adding one movie');
     var newMovie = new Movie(req.body);
     newMovie.save()
         //.exec()
         .then((movie) => {
-            console.log(movie);
+            //console.log(movie);
             res.json(movie);
         })
         .catch((err) => {
@@ -71,15 +72,15 @@ router.post('/api/movie', (req, res) => {
 });
 
 // DELETE /api/movie/:id route with mongoose/promise
-router.delete('/api/movie/:id', (req, res) => {
-    console.log('DELETE /api/movie/:id - Attempting to delete one movie');
+router.delete('/api/movie/:id', passport.authenticate('jwt', { session: false }), (req, res) => {
+    //console.log('DELETE /api/movie/:id - Attempting to delete one movie');
     Movie.findOneAndRemove({ _id: req.params.id })
         //.exec()
         .then(() => {
             res.sendStatus(204);
         })
         .catch((err) => {
-            console.log("DELETE /api/movie Sending error");
+            //console.log("DELETE /api/movie Sending error");
             res.status(404).send(err);
         });
 });
@@ -89,11 +90,11 @@ router.delete('/api/movie/:id', (req, res) => {
 //     res.sendFile(path.join(__dirname, '../../public/views/movies.html'));
 // });
 
-router.get('/movies', (req, res) => {
+router.get('/movies', passport.authenticate('jwt', { session: false }), (req, res) => {
     Movie.find({}).select('-__v')
         .exec()
         .then((movies) => {
-            console.log(movies);
+            //console.log(movies);
             res.render('movies', {
                 title: 'Movie List:',
                 movies: movies
@@ -109,11 +110,11 @@ router.get('/movies', (req, res) => {
 //     res.sendFile(path.join(__dirname, '../../public/views/movies.html'));
 // });
 
-router.get('/movie/:id', (req, res) => {
+router.get('/movie/:id', passport.authenticate('jwt', { session: false }), (req, res) => {
     Movie.findOne({ _id: req.params.id }).select('-__v')
         .exec()
         .then((movies) => {
-            console.log(movies);
+            //console.log(movies);
             res.render('movie', {
                 title: 'Movie Selected:',
                 image_url: movies.image_url,
@@ -125,19 +126,19 @@ router.get('/movie/:id', (req, res) => {
         });
 });
 
-router.get('/add', (req, res) => {
+router.get('/add', passport.authenticate('jwt', { session: false }), (req, res) => {
     res.render('addMovie', {
         title: 'Add new Movie'
     });
 });
 
-router.post('/add', (req, res) => {
+router.post('/add', passport.authenticate('jwt', { session: false }), (req, res) => {
     console.log('POST /add - Adding one movie');
     var newMovie = new Movie(req.body);
     newMovie.save()
         //.exec()
         .then((movie) => {
-            console.log(movie);
+            //console.log(movie);
             //res.json(movie);
             res.redirect('/movies')
         })
@@ -146,11 +147,11 @@ router.post('/add', (req, res) => {
         });
 });
 
-router.get('/edit/:id', (req, res) => {
+router.get('/edit/:id', passport.authenticate('jwt', { session: false }), (req, res) => {
     Movie.findOne({ _id: req.params.id }).select('-__v')
         .exec()
         .then((movies) => {
-            console.log(movies);
+            //console.log(movies);
             res.render('editMovie', {
                 title: 'Edit Movie:',
                 editMovie: movies
@@ -163,23 +164,23 @@ router.get('/edit/:id', (req, res) => {
 
 
 router.post('/edit/:id', (req, res) => {
-    console.log('POST /add - Adding one edited movie');
+    console.log('POST /edit/:id - Adding one edited movie');
 
     let movie = {};
     movie.title = req.body.title;
     movie.description = req.body.description;
     movie.image_url = req.body.image_url;
 
-    console.log('Title is: ' + movie.title);
-    console.log('Description is: ' + movie.description);
+    //console.log('Title is: ' + movie.title);
+    //console.log('Description is: ' + movie.description);
 
     let query = { _id: req.params.id };
-    console.log('The query id is: ' + query._id);
+    //console.log('The query id is: ' + query._id);
 
     Movie.findByIdAndUpdate(req.params.id, movie)
         .exec()
         .then((movies) => {
-            console.log(movies);
+            //console.log(movies);
             res.redirect('/movies');
         })
         .catch((err) => {

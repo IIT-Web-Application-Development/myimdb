@@ -49,10 +49,13 @@
     <h2 class="my-4">Favorite
         <small>Movies</small>
     </h2>
-    <h5 *ngIf="!movies">No Favorite Movies</h5>
+    <h5 *ngIf="!movies || movies.length === 0">No Favorite Movies</h5>
     <div *ngIf="movies" class="row">
         <div *ngFor="let m of movies" class="col-lg-4 col-sm-6 portfolio-item">
             <div class="card h-100">
+                <button type="button" class="close remove-fav" (click)="removeFavMovie(m)">
+                        <span aria-hidden="true">&times;</span>
+                </button>
                 <a href="#"><img class="card-img-top" src="http://placehold.it/700x400" alt=""></a>
                 <div class="card-body">
                     <h4 class="card-title">

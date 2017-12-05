@@ -13,16 +13,7 @@ import { User, Movie, Series } from '../models';
 export class DashboardComponent implements OnInit {
 
   private user: any;
-  private movies: Movie[] = [
-    {
-      title: 'Terminator',
-      description: 'Lorem ipsum'
-    },
-    {
-      title: 'Terminator 2',
-      description: 'Lorem ipsum'
-    }
-  ];
+  private movies: Movie[];
   private series: Series[];
 
   constructor(
@@ -40,6 +31,28 @@ export class DashboardComponent implements OnInit {
       error => {
         this.router.navigate(['login']);
       });
+    this.authenticationService.getFavoriteMovies()
+      .subscribe(
+      (movies) => {
+        setTimeout(() => this.movies = movies, 0);
+
+        console.log(movies);
+      },
+      error => {
+        console.error(error);
+      });
+
+    this.authenticationService.getFavoriteSeries()
+      .subscribe(
+      series => {
+        console.log(series);
+        if (series) {
+          this.movies = series;
+        }
+      },
+      error => {
+        console.error(error);
+      });
   }
 
   ngOnInit() {
@@ -48,5 +61,27 @@ export class DashboardComponent implements OnInit {
   logout() {
     this.cookieService.set('JWT', '');
     this.router.navigate(['/']);
+  }
+
+  removeFavMovie(movie: Movie) {
+    console.log(movie);
+    const index = this.movies.findIndex((el: Movie) => {
+      return el._id === movie._id;
+    });
+    console.log(index);
+    this.authenticationService.removeFavoriteMovie(movie._id)
+      .subscribe(
+      nothing => {
+        if (this.movies.length > 1) {
+          console.log(this.movies);
+          console.log(index);
+          setTimeout(() => this.movies.splice(index, 1), 0);
+        } else {
+          this.movies = [];
+        }
+      },
+      error => {
+        console.error(error);
+      });
   }
 }

@@ -11,7 +11,7 @@ export class Movie {
     public title: string,
     public description: string,
     public image?: string,
-    public id?: number
+    public _id?: string
   ) { }
 }
 export class Series {
@@ -19,7 +19,7 @@ export class Series {
     public title: string,
     public description: string,
     public image?: string,
-    public id?: number
+    public _id?: string
   ) { }
 }
 

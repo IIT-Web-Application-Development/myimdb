@@ -7,3 +7,10 @@
 .portfolio-item {
     margin-bottom: 30px;
 }
+
+.remove-fav {
+    position: absolute;
+    color: red;
+    left: 90%;
+    font-size: 275%;
+}

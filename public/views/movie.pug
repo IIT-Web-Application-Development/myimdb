@@ -7,4 +7,7 @@ block content
     h6 Movie Description: #{oneMovie.description}
     hr
     a.btn.btn-primary(href='/edit/' + oneMovie._id) Edit
+    form(action='/api/favorite/movies', method='POST')
+        input(type='hidden', name='movieId', value=''+oneMovie._id)
+        input(type='submit', value='add to favorites')
     

@@ -56,4 +56,36 @@ export class AuthenticationService {
     localStorage.removeItem('currentUser');
   }
 
+  getFavoriteMovies() {
+    return this.http.get('/api/favorite/movies',
+      {
+        headers: new HttpHeaders().set('Content-Type', `application/json`)
+      })
+      .map((response: Response) => {
+        const movies: any = response;
+        return movies;
+      });
+  }
+
+  getFavoriteSeries() {
+    return this.http.get('/api/favorite/series',
+      {
+        headers: new HttpHeaders().set('Content-Type', `application/json`)
+      })
+      .map((response: Response) => {
+        const series: any = response;
+        return series;
+      });
+  }
+
+  removeFavoriteMovie(id: string) {
+    return this.http.delete('/api/favorite/movies/' + id,
+      {
+        headers: new HttpHeaders().set('Content-Type', `application/json`)
+      })
+      .map((response: Response) => {
+        return response;
+      });
+  }
+
 }
