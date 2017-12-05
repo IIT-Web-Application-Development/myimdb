@@ -37,7 +37,7 @@ router.get('/api/movies', (req, res) => {
             res.json(movies);
         })
         .catch((err) => {
-            res.status(404).res.send(err);
+            res.status(404).send(err);
         });
 });
 
@@ -51,7 +51,7 @@ router.get('/api/movies/:id', (req, res) => {
             res.json(movies);
         })
         .catch((err) => {
-            res.status(404).res.send(err);
+            res.status(404).send(err);
         });
 });
 
@@ -66,7 +66,7 @@ router.post('/api/movie', (req, res) => {
             res.json(movie);
         })
         .catch((err) => {
-            res.status(404).res.send(err);
+            res.status(404).send(err);
         });
 });
   
@@ -80,7 +80,7 @@ router.delete('/api/movie/:id', (req, res) => {
         })
         .catch((err) => {
             console.log("DELETE /api/movie Sending error");
-            res.sendStatus(404).res.send(err);
+            res.status(404).send(err);
         });
 }); 
 
@@ -100,7 +100,7 @@ router.get('/movies', (req, res) => {
         });
     })
     .catch((err) => {
-        res.status(404).res.send(err);
+        res.status(404).send(err);
     });
 });
 
@@ -121,7 +121,7 @@ router.get('/movie/:id', (req, res) => {
         });
     })
     .catch((err) => {
-        res.status(404).res.send(err);
+        res.status(404).send(err);
     });
 });
 
@@ -142,7 +142,7 @@ router.post('/add', (req, res) => {
             res.redirect('/movies')
         })
         .catch((err) => {
-            res.status(404).res.send(err);
+            res.status(404).send(err);
         });
 });
 
@@ -157,7 +157,7 @@ router.get('/edit/:id', (req, res) => {
         });
     })
     .catch((err) => {
-        res.status(404).res.send(err);
+        res.status(404).send(err);
     });
 });
 
@@ -170,26 +170,21 @@ router.post('/edit/:id', (req, res) => {
     movie.description = req.body.description;
     movie.image_url = req.body.image_url;
 
-    // var editMovie = Movie(req.body);
     console.log('Title is: ' + movie.title);
     console.log('Description is: ' + movie.description);
     
     let query = {_id:req.params.id};
     console.log('The query id is: ' + query._id);
-    
-    Movie.findByIdAndUpdate(req.params.id, movie, function (err, place) {
-        res.redirect('/movies');
+
+    Movie.findByIdAndUpdate(req.params.id, movie)
+        .exec()
+        .then((movies) => {
+            console.log(movies);
+            res.redirect('/movies');
+        })
+        .catch((err) => {
+            res.status(404).send(err);
+        });
     });
-    // Movie.update(query, editMovie)
-    //     //.exec()
-    //     .then((movie) => {
-    //         console.log(movie);
-    //         //res.json(movie);
-    //                res.redirect('/movies')
-    //     })
-    //     .catch((err) => {
-    //         res.status(404).res.send(err);
-    //     });
-});
 
 module.exports = router;
